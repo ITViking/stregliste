@@ -1,4 +1,6 @@
 const functions = require('firebase-functions');
+const admin = require("firebase-admin");
+admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -6,3 +8,15 @@ const functions = require('firebase-functions');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
+
+exports.setRegularUserRights = functions.auth.user().onCreate((user) => {
+    let customClaims = {
+        userRole: "user"
+    };
+
+    return admin.auth().setCustomUserClaims(user.uid, customClaims)
+        // .then(() => {
+        //     admin.firestore().collection("session").doc(user.uid).set({ refreshTime: new Date().getTime() });
+        // })
+        .catch(console.error);
+});
