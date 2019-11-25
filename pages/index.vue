@@ -3,7 +3,7 @@
     <v-flex xs12 sm8 md6>
       <v-container>
         <v-col>
-          <img src="GnuLogoTrekant.png" alt="" width="340" height="165">
+          <img src="GnuLogoTrekant.png" alt width="340" height="165" />
           <h1 class="text-center mb-6">Opret bruger</h1>
           <v-text-field v-model="name" label="Navn" filled></v-text-field>
           <v-text-field v-model="email" label="Email" filled></v-text-field>
@@ -23,6 +23,9 @@
             </v-row>
           </v-col>
         </v-col>
+        <v-snackbar v-model="snackbar" color="error" :timeout="snackbarTimeout">
+          {{ snackbarText }}
+        </v-snackbar>
       </v-container>
     </v-flex>
   </v-layout>
@@ -34,6 +37,9 @@ import { auth, firestore } from "../firebaseSetup";
 export default {
   data() {
     return {
+      snackbar: false,
+      snackbarText: "",
+      snackbarTimeout: 2000,
       email: "",
       name: "",
       password: "",
@@ -47,7 +53,10 @@ export default {
         .then(() => {
           this.$router.push({ path: "/tap" });
         })
-        .catch(console.error);
+        .catch((error) => {
+          this.snackbar = true;
+          this.snackbarText = error.message;
+        });
     },
     async createUser() {
       return auth.createUserWithEmailAndPassword(this.email, this.password)
@@ -56,11 +65,11 @@ export default {
         });
     },
     async createUserInFirestore(uid) {
-      return firestore.collection("users").doc(uid).set({ 
+      return firestore.collection("users").doc(uid).set({
           name: this.name,
-          createdAt: this.createdAt 
+          createdAt: this.createdAt
         })
-        .then(console.log("user created"));
+        .then();
     }
   }
 };
