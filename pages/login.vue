@@ -3,7 +3,7 @@
     <v-flex xs12 sm8 md6>
       <v-container>
         <v-col>
-          <img src="GnuLogoTrekant.png" alt="" width="340" height="165">
+          <img src="GnuLogoTrekant.png" alt width="340" height="165" />
           <h1 class="text-center mb-6">Login</h1>
           <v-text-field v-model="email" label="Email" filled></v-text-field>
           <v-text-field
@@ -24,6 +24,10 @@
             </v-row>
           </v-col>
         </v-col>
+        <v-snackbar v-model="snackbar" color="error" :timeout="snackbarTimeout">
+          {{ snackbarText }}
+          <v-btn text @click="snackbar = false">X</v-btn>
+        </v-snackbar>
       </v-container>
     </v-flex>
   </v-layout>
@@ -34,6 +38,9 @@ import { auth } from "../firebaseSetup";
 export default {
   data() {
     return {
+      snackbar: false,
+      snackbarText: "",
+      snackbarTimeout: 4000,
       email: "",
       password: "",
       showPassword: false
@@ -41,17 +48,21 @@ export default {
   },
   methods: {
     async signin() {
-      console.log("hit");
       await this.authenticateUser()
         .then(() => {
           this.$router.push({ path: "/tap" });
         })
-        .catch(console.error);
+        .catch((error) => {
+          this.snackbar = true;
+          this.snackbarText = error.message;
+        });
     },
     authenticateUser() {
-      return auth.signInWithEmailAndPassword(this.email, this.password).then(user => {
-        console.log("what a shit show: ", user);
-      });
+      let email = this.email.toLowerCase();
+
+      return auth
+        .signInWithEmailAndPassword(email, this.password)
+        .then();
     }
   }
 };
