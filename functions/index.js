@@ -11,12 +11,12 @@ admin.initializeApp();
 
 exports.setRegularUserRights = functions.auth.user().onCreate((user) => {
     let customClaims = {
-        userRole: "user"
+        admin: false
     };
 
     return admin.auth().setCustomUserClaims(user.uid, customClaims)
-        // .then(() => {
+        .then(() => {
         //     admin.firestore().collection("session").doc(user.uid).set({ refreshTime: new Date().getTime() });
-        // })
+        })
         .catch(console.error);
 });
