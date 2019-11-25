@@ -14,7 +14,7 @@
     </v-navigation-drawer> -->
     <v-app-bar fixed app>
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
-      <v-toolbar-title v-text="title" to="/"/>
+      <v-toolbar-title v-text="title"/>
       <v-spacer />
     </v-app-bar>
     <v-content>
