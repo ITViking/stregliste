@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { firestore } from "../firebaseSetup";
+import { firestore, auth } from "../firebaseSetup";
 
 export default {
   data() {
@@ -49,9 +49,7 @@ export default {
   },
   async mounted() {
     this.loading = true;
-
     this.listUsers();
-
     this.loading = false;
   }
 };
