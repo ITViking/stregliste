@@ -26,18 +26,17 @@
 import Login from "../components/login";
 import RegisterUser from "../components/registerUser";
 import { mapMutations } from "vuex";
+import { auth } from "../firebaseSetup";
 
 export default {
   data() {
     return {
       showLogin: false,
-      showLoginText: 'Login'
+      showLoginText: "Login"
     };
   },
   methods: {
-    ...mapMutations([
-            'setUser'
-    ]),
+    ...mapMutations(["setUser"]),
     toggleBetweenRegisterAndLogin() {
       this.showLogin = !this.showLogin;
     }

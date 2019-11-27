@@ -74,24 +74,6 @@ export default {
         })
         .then();
     },
-    async checkIfUserIsLoggedIn() {
-      let token;
-      try {
-        token = await auth.currentUser.getIdTokenResult();
-      } catch (error) {
-        console.log("user is not logged in: ", error);
-        return;
-      }
-
-      console.log(token);
-
-      // this.setUser({
-      //   uid
-      // })
-    }
   },
-  created() {
-    this.checkIfUserIsLoggedIn();
-  }
 };
 </script>
