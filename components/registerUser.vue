@@ -1,43 +1,97 @@
 <template>
-  <v-container>
-    <v-col>
-      <h1 class="text-center pb-6">Opret bruger</h1>
-      <v-text-field :name="name" label="Navn" filled></v-text-field>
-      <v-text-field :email="email" :rules="[rules.email, rules.required]" label="Email" filled></v-text-field>
-      <v-text-field
-        :password="password"
-        label="Password"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
-        :type="showPassword ? 'text' : 'password'"
-        @click:append="showPassword = !showPassword"
-      ></v-text-field>
-      <v-col offset="4" cols="12">
-        <v-row>
-          <v-btn depressed class="mt-8" x-large color="primary">Opret</v-btn>
-        </v-row>
-        <v-row>
-          <v-btn class="mt-8" outlined x-large color="primary" to="/login">Login</v-btn>
-        </v-row>
-      </v-col>
-    </v-col>
-  </v-container>
+  <v-layout column justify-center align-center>
+    <v-flex xs12 sm8 md6>
+      <v-container>
+        <v-col>
+          <h1 class="text-center mb-6">Opret bruger</h1>
+          <v-text-field v-model="name" label="Navn" filled></v-text-field>
+          <v-text-field v-model="email" label="Email" filled></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="Password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+          ></v-text-field>
+          <v-col offset="3" cols="12">
+            <v-row>
+              <v-btn depressed class="mt-8" x-large color="primary" @click="registerUser">Opret</v-btn>
+            </v-row>
+          </v-col>
+        </v-col>
+        <v-snackbar v-model="snackbar" color="error" :timeout="snackbarTimeout">{{ snackbarText }}</v-snackbar>
+      </v-container>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
+import { auth, firestore } from "../firebaseSetup";
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
+      snackbar: false,
+      snackbarText: "",
+      snackbarTimeout: 2000,
       email: "",
       name: "",
       password: "",
-      showPassword: false
+      showPassword: false,
+      createdAt: Date.now()
     };
   },
   methods: {
-      sendToLogin() {
-          this.$router.push("../pages/login");
+    ...mapMutations(["setuser"]),
+    sendToLogin() {
+      this.$router.push("../pages/login");
+    },
+    async registerUser() {
+      await this.createUser()
+        .then(() => {
+          this.$router.push({ path: "/tap" });
+        })
+        .catch(error => {
+          this.snackbar = true;
+          this.snackbarText = error.message;
+        });
+    },
+    async createUser() {
+      return auth
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(async response => {
+          await this.createUserInFirestore(response.user.uid);
+        });
+    },
+    async createUserInFirestore(uid) {
+      return firestore
+        .collection("users")
+        .doc(uid)
+        .set({
+          name: this.name,
+          createdAt: this.createdAt
+        })
+        .then();
+    },
+    async checkIfUserIsLoggedIn() {
+      let token;
+      try {
+        token = await auth.currentUser.getIdTokenResult();
+      } catch (error) {
+        console.log("user is not logged in: ", error);
+        return;
       }
+
+      console.log(token);
+
+      // this.setUser({
+      //   uid
+      // })
+    }
+  },
+  created() {
+    this.checkIfUserIsLoggedIn();
   }
 };
 </script>

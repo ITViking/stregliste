@@ -4,73 +4,47 @@
       <v-container>
         <v-col>
           <img src="GnuLogoTrekant.png" alt width="340" height="165" />
-          <h1 class="text-center mb-6">Opret bruger</h1>
-          <v-text-field v-model="name" label="Navn" filled></v-text-field>
-          <v-text-field v-model="email" label="Email" filled></v-text-field>
-          <v-text-field
-            v-model="password"
-            label="Password"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
-          ></v-text-field>
-          <v-col offset="4" cols="12">
+          <login v-if="showLogin"></login>
+          <register-user v-if="!showLogin"></register-user>
+          <v-col :offset="4" cols="12">
             <v-row>
-              <v-btn depressed class="mt-8" x-large color="primary" @click="registerUser">Opret</v-btn>
-            </v-row>
-            <v-row>
-              <v-btn class="mt-4" outlined x-large color="primary" to="/login">Login</v-btn>
+              <v-btn
+                @click="toggleBetweenRegisterAndLogin"
+                outlined
+                x-large
+                color="primary"
+              >{{ showLogin ? "Register" : "Login" }}</v-btn>
             </v-row>
           </v-col>
         </v-col>
-        <v-snackbar v-model="snackbar" color="error" :timeout="snackbarTimeout">
-          {{ snackbarText }}
-        </v-snackbar>
       </v-container>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import { auth, firestore } from "../firebaseSetup";
+import Login from "../components/login";
+import RegisterUser from "../components/registerUser";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
-      snackbar: false,
-      snackbarText: "",
-      snackbarTimeout: 2000,
-      email: "",
-      name: "",
-      password: "",
-      showPassword: false,
-      createdAt: Date.now()
+      showLogin: false,
+      showLoginText: 'Login'
     };
   },
   methods: {
-    async registerUser() {
-      await this.createUser()
-        .then(() => {
-          this.$router.push({ path: "/tap" });
-        })
-        .catch((error) => {
-          this.snackbar = true;
-          this.snackbarText = error.message;
-        });
-    },
-    async createUser() {
-      return auth.createUserWithEmailAndPassword(this.email, this.password)
-        .then(async (response) => {
-          await this.createUserInFirestore(response.user.uid);
-        });
-    },
-    async createUserInFirestore(uid) {
-      return firestore.collection("users").doc(uid).set({
-          name: this.name,
-          createdAt: this.createdAt
-        })
-        .then();
+    ...mapMutations([
+            'setUser'
+    ]),
+    toggleBetweenRegisterAndLogin() {
+      this.showLogin = !this.showLogin;
     }
+  },
+  components: {
+    RegisterUser,
+    Login
   }
 };
 </script>

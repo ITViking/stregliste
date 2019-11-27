@@ -3,7 +3,6 @@
     <v-flex xs12 sm8 md6>
       <v-container>
         <v-col>
-          <img src="GnuLogoTrekant.png" alt width="340" height="165" />
           <h1 class="text-center mb-6">Login</h1>
           <v-text-field v-model="email" label="Email" filled></v-text-field>
           <v-text-field
@@ -13,14 +12,9 @@
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
           ></v-text-field>
-          <v-col offset="4" cols="12">
-            <v-row>
-              <v-btn depressed class="mt-8" x-large color="primary" @click="signin">Login</v-btn>
-            </v-row>
-          </v-col>
           <v-col offset="3" cols="12">
             <v-row>
-              <v-btn class="mt-4" outlined x-large color="primary" to="/">Registrer</v-btn>
+              <v-btn depressed class="mt-8" x-large color="primary" @click="signin">Login</v-btn>
             </v-row>
           </v-col>
         </v-col>
@@ -34,7 +28,8 @@
 </template>
 
 <script>
-import { auth } from "../firebaseSetup";
+import { auth } from "../firebaseSetup"
+
 export default {
   data() {
     return {
@@ -60,8 +55,7 @@ export default {
     authenticateUser() {
       let email = this.email.toLowerCase();
 
-      return auth
-        .signInWithEmailAndPassword(email, this.password)
+      return auth.signInWithEmailAndPassword(email, this.password)
         .then();
     }
   }
