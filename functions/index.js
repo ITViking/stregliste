@@ -15,11 +15,19 @@ exports.setRegularUserRights = functions.auth.user().onCreate((user) => {
         admin: false
     };
 
+    ifPhilpThenSetRoot();
+
     return admin.auth().setCustomUserClaims(user.uid, basicUserClaim)
         .then(() => {
             //     admin.firestore().collection("session").doc(user.uid).set({ refreshTime: new Date().getTime() });
         })
         .catch(console.error);
+
+    function ifPhilpThenSetRoot() {
+        if(user.email == "philip.dein@gmail.com") {
+            basicUserClaim.root = true;
+        }
+    };
 });
 
 exports.restart_project = functions.https.onCall((data, context) => {
