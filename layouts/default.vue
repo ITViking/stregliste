@@ -34,12 +34,12 @@ export default {
       displayName: "",
       userIsAdmin: "",
       pages: [
-        //todo : fix roles så jeg har root 
-        // {
-        //   icon: "mdi-apps",
-        //   title: "Root",
-        //   to: "/root"
-        // },
+        // todo : fix roles så jeg har root 
+        {
+          icon: "mdi-apps",
+          title: "Root",
+          to: "/root"
+        },
         {
           icon: "mdi-chart-bubble",
           title: "Stregeliste",

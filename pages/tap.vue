@@ -36,10 +36,11 @@
         </v-card>
         <v-card v-if="somethingBought" color="warning" height="60" class="mt-4">
           <v-layout row justify-center align-content-space-between>
-            <v-btn class="mt-2" color="info">Køb</v-btn>
+            <v-btn @click="addCartToBalance" class="mt-2" color="info">Køb</v-btn>
             <v-btn @click="emptyCartForAllUsers" class="mt-2 ml-6" color="error">Fortryd</v-btn>
           </v-layout>
         </v-card>
+        <v-snackbar v-model="snackbar" color="info" :timeout="snackbarTimeout">{{ snackbarText }}</v-snackbar>
       </v-container>
     </v-flex>
   </v-layout>
@@ -51,6 +52,9 @@ import { firestore, auth } from "../firebaseSetup";
 export default {
   data() {
     return {
+      snackbar: false,
+      snackbarText: "",
+      snackbarTimeout: 2000,
       loading: false,
       somethingBought: false,
       users: [],
@@ -69,7 +73,7 @@ export default {
             let user = {
               uid: change.doc.id,
               balance: change.doc.get("balance")
-                ? changes.doc.get("balance")
+                ? change.doc.get("balance")
                 : 0,
               cart: 0,
               name: change.doc.get("name")
@@ -93,6 +97,25 @@ export default {
         if(!user.cart) return;
         user.cart = 0;
       });
+    },
+    addCartToBalance() {
+      this.users.map(user => {
+        if(!user.cart) return;
+        let newBalance = user.balance += user.cart;
+        firestore.collection("users").doc(user.uid).update({
+          balance: newBalance
+        })
+        .then(() => {
+          this.snackbar = true;
+          this.snackbarText = "Købet er gennemført";
+          
+        })
+        .catch((error) => {
+          console.error("failed to add new balance to user: ", error);
+          return;
+        });
+        user.cart = 0;
+      })
     }
   },
   async mounted() {
