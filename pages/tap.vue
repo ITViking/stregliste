@@ -108,7 +108,7 @@ export default {
         .then(() => {
           this.snackbar = true;
           this.snackbarText = "Købet er gennemført";
-          
+          this.somethingBought = false;
         })
         .catch((error) => {
           console.error("failed to add new balance to user: ", error);
