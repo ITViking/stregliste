@@ -84,10 +84,7 @@ export default {
     deleteUsersCollection() {
       this.users.map(user => {
         try {
-          firestore
-            .collection("users")
-            .doc(user.uid)
-            .delete();
+          firestore.collection("users").doc(user.uid).delete();
         } catch (error) {
           console.error("failed to delete user from collection:", error);
           return;
