@@ -48,6 +48,7 @@ export default {
           this.$router.push({ path: "/tap" });
         })
         .catch((error) => {
+          console.error(error);
           this.snackbar = true;
           this.snackbarText = error.message;
         });
