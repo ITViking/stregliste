@@ -18,6 +18,9 @@ export default context => {
       token.getIdTokenResult()
         .then(result => {
           user.isAdmin = result.claims.admin;
+          if(result.claims.root) {
+            user.isRoot = result.claims.root;
+          }
         })
         .catch(error => {
           console.info("didn't succeed in getting admin claims: ", error);
