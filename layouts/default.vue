@@ -69,6 +69,11 @@ export default {
           title: "Root",
           to: "/root"
         },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Stregeliste",
+          to: "/tap"
+        },
       ],
       title: "Streglisten",
     };
