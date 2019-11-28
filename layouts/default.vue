@@ -26,6 +26,7 @@
       <v-app-bar-nav-icon v-if="userIsAdmin || userIsRoot" @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title"/>
       <v-spacer />
+      <v-btn v-if="signedIn" @click="signOut">Log ud</v-btn>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -36,6 +37,8 @@
 </template>
 
 <script>
+import { auth } from "../firebaseSetup";
+
 export default {
   data() {
     return {
@@ -44,6 +47,7 @@ export default {
       displayName: "",
       userIsAdmin: "",
       userIsRoot: "",
+      signedIn: false,
       adminPages: [
         // todo : fix roles så jeg har root
         {
@@ -78,13 +82,29 @@ export default {
       title: "Streglisten",
     };
   },
+  methods: {
+    signOut() {
+      auth.signOut()
+      .then((val)=> {
+        this.$store.commit("setUser", {});
+        this.$router.push({ path: "/"});
+        this.signedIn = false;
+      })
+      .catch(console.error);
+    }
+  },
   created() {
     if(this.$store.state.user.isAdmin) {
       this.userIsAdmin = true;
     }
+
+    if(this.$store.state.user.email) {
+      this.signedIn = true;
+    }
+
     if(this.$store.state.user.isRoot) {
       this.userIsRoot = true;
     }
-  }
+  },
 };
 </script>
