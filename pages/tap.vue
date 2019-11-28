@@ -37,7 +37,7 @@
         <v-card v-if="somethingBought" color="warning" height="60" class="mt-4">
           <v-layout row justify-center align-content-space-between>
             <v-btn class="mt-2" color="info">Køb</v-btn>
-            <v-btn class="mt-2 ml-6" color="error">Fortryd</v-btn>
+            <v-btn @click="emptyCartForAllUsers" class="mt-2 ml-6" color="error">Fortryd</v-btn>
           </v-layout>
         </v-card>
       </v-container>
@@ -86,6 +86,12 @@ export default {
           userToAddTo.cart += amount;
           this.somethingBought = true;
         }
+      });
+    },
+    emptyCartForAllUsers() {
+      this.users.map(user => {
+        if(!user.cart) return;
+        user.cart = 0;
       });
     }
   },
