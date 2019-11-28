@@ -6,9 +6,8 @@ export default context => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged(token => {
       if (!token) {
-        return reject("no user");
+        return resolve();
       }
-
 
       let user = {
         displayName: token.displayName,
