@@ -60,9 +60,7 @@ export default {
           if (change.type == "added") {
             let user = {
               uid: change.doc.id,
-              balance: change.doc.get("balance")
-                ? changes.doc.get("balance")
-                : 0,
+              balance: change.doc.get("balance") ? changes.doc.get("balance") : 0,
               cart: 0,
               name: change.doc.get("name")
             };
