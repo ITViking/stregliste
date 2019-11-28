@@ -34,7 +34,7 @@
             </template>
           </v-data-table>
         </v-card>
-        <v-card v-if="somethingBought" color="warning" height="60" class="mt-4">
+        <v-card v-if="cartHasItems" color="warning" height="60" class="mt-4">
           <v-layout row justify-center align-content-space-between>
             <v-btn @click="addCartToBalance" class="mt-2" color="info">Køb</v-btn>
             <v-btn @click="emptyCartForAllUsers" class="mt-2 ml-6" color="error">Fortryd</v-btn>
@@ -56,7 +56,7 @@ export default {
       snackbarText: "",
       snackbarTimeout: 2000,
       loading: false,
-      somethingBought: false,
+      cartHasItems: false,
       users: [],
       headers: [
         { text: "Navn", value: "name" },
@@ -88,7 +88,7 @@ export default {
       this.users.map(user => {
         if (user.uid == userToAddTo.uid) {
           userToAddTo.cart += amount;
-          this.somethingBought = true;
+          this.cartHasItems = true;
         }
       });
     },
@@ -96,6 +96,7 @@ export default {
       this.users.map(user => {
         if(!user.cart) return;
         user.cart = 0;
+        this.cartHasItems = false;
       });
     },
     addCartToBalance() {
@@ -108,7 +109,7 @@ export default {
         .then(() => {
           this.snackbar = true;
           this.snackbarText = "Købet er gennemført";
-          this.somethingBought = false;
+          this.cartHasItems = false;
         })
         .catch((error) => {
           console.error("failed to add new balance to user: ", error);
