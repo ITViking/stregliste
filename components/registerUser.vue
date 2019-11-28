@@ -58,19 +58,24 @@ export default {
         });
     },
     async createUser() {
-      return auth
-        .createUserWithEmailAndPassword(this.email, this.password)
+      return auth.createUserWithEmailAndPassword(this.email, this.password)
         .then(async response => {
           await this.createUserInFirestore(response.user.uid);
+        })
+        .then(() => {
+          auth.currentUser.sendEmailVerification()
+          .then(() => {
+            console.log("verification email sent");
+          })
+          .catch((error) => {
+            console.error("failed to send verification email", error);
+          });
         });
     },
     async createUserInFirestore(uid) {
-      return firestore
-        .collection("users")
-        .doc(uid)
-        .set({
+      return firestore.collection("users").doc(uid).set({
           name: this.name,
-          createdAt: this.createdAt
+          createdAt: this.createdAt,
         })
         .then();
     },
