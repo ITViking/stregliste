@@ -44,6 +44,7 @@ export default {
   components: {
     RegisterUser,
     Login
-  }
+  },
+  layout: "indexLayout"
 };
 </script>
