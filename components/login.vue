@@ -12,8 +12,8 @@
             :type="showPassword ? 'text' : 'password'"
             @click:append="showPassword = !showPassword"
           ></v-text-field>
-          <v-col offset="3" cols="12">
-            <v-row>
+          <v-col cols="12">
+            <v-row justify="center">
               <v-btn depressed class="mt-8" x-large color="primary" @click="signin">Login</v-btn>
             </v-row>
           </v-col>
