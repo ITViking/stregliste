@@ -95,7 +95,7 @@ export default {
   },
   created() {
     if(this.$store.getters["user/isAdmin"]) {
-      this.userIsAdmin = true;
+      this.userIsAdmin = this.$store.getters["user/isAdmin"];
     }
 
     if(this.$store.getters["user/isSignedIn"]) {
@@ -103,8 +103,8 @@ export default {
     }
 
     if(this.$store.getters["user/isRoot"]) {
-      this.userIsRoot = true;
+      this.userIsRoot = this.$store.getters["user/isRoot"];
     }
-  },
+  }
 };
 </script>
