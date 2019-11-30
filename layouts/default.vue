@@ -86,23 +86,23 @@ export default {
     signOut() {
       auth.signOut()
       .then((val)=> {
-        this.$store.commit("setUser", {});
+        this.$store.commit("user/signOut");
+        this.signedIn = this.$store.getters["user/isSignedIn"];
         this.$router.push({ path: "/"});
-        this.signedIn = false;
       })
       .catch(console.error);
     }
   },
   created() {
-    if(this.$store.state.user.isAdmin) {
+    if(this.$store.getters["user/isAdmin"]) {
       this.userIsAdmin = true;
     }
 
-    if(this.$store.state.user.email) {
-      this.signedIn = true;
+    if(this.$store.getters["user/isSignedIn"]) {
+      this.signedIn = this.$store.getters["user/isSignedIn"];
     }
 
-    if(this.$store.state.user.isRoot) {
+    if(this.$store.getters["user/isRoot"]) {
       this.userIsRoot = true;
     }
   },
