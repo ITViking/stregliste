@@ -124,6 +124,14 @@ export default {
     this.listUsers();
     this.loading = false;
   },
-  middleware: "checkAuthentication"
+  middleware: "checkAuthentication",
+  layout(context) {
+    if(context.store.getters["user/isAdmin"]) {
+      return "adminLayout";
+    }
+    if(context.store.getters["user/isRoot"]) {
+      return "rootLayout";
+    }
+  }
 };
 </script>
