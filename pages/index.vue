@@ -31,7 +31,7 @@ import { auth } from "../firebaseSetup";
 export default {
   data() {
     return {
-      showLogin: false,
+      showLogin: true,
       showLoginText: "Login"
     };
   },
