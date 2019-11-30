@@ -123,6 +123,7 @@ export default {
     this.loading = true;
     this.listUsers();
     this.loading = false;
-  }
+  },
+  middleware: "checkAuthentication"
 };
 </script>
