@@ -1,7 +1,9 @@
 import { auth } from "../firebaseSetup";
 
-export default context => {
-  const { store } = context
+export default async context => {
+  const { store } = context;
+
+  console.log("hit plugin");
 
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged(token => {
@@ -9,24 +11,24 @@ export default context => {
         return resolve();
       }
 
-      let user = {
-        displayName: token.displayName,
-        isAdmin: false,
-        email: token.email
-      };
-
       token.getIdTokenResult()
         .then(result => {
-          user.isAdmin = result.claims.admin;
-          if(result.claims.root) {
-            user.isRoot = result.claims.root;
-          }
+
+          let user = {
+            displayName: token.displayName,
+            email: token.email,
+            isAdmin: result.claims.admin,
+            isRoot: result.claims.root,
+            signedIn: true,
+          };
+
+          store.commit('user/set', user)
         })
         .catch(error => {
           console.info("didn't succeed in getting admin claims: ", error);
         });
 
-      return resolve(store.commit('setUser', user));
+      return resolve();
     });
   });
 };
