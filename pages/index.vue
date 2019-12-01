@@ -2,7 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6a>
       <div class="text-xs-center">
-        <img src="GnuLogoTrekant.png" alt width="340" height="165" />
+        <img src="/gnu-logo.png" />
       </div>
       <v-container>
         <v-col>
