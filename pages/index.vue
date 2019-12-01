@@ -25,8 +25,6 @@
 <script>
 import Login from "../components/login";
 import RegisterUser from "../components/registerUser";
-import { mapMutations } from "vuex";
-import { auth } from "../firebaseSetup";
 
 export default {
   data() {
@@ -36,9 +34,14 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setUser"]),
     toggleBetweenRegisterAndLogin() {
       this.showLogin = !this.showLogin;
+    }
+  },
+  created() {
+    console.log("mounted");
+    if (this.$store.getters["user/isSignedIn"]) {
+      this.$router.push({ path: "/tap"});
     }
   },
   components: {
