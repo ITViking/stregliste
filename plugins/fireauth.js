@@ -3,8 +3,6 @@ import { auth } from "../firebaseSetup";
 export default async context => {
   const { store } = context;
 
-  console.log("hit plugin");
-
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged(token => {
       if (!token) {
@@ -22,7 +20,7 @@ export default async context => {
             signedIn: true,
           };
 
-          store.commit('user/set', user)
+          store.commit('user/set', user);
         })
         .catch(error => {
           console.info("didn't succeed in getting admin claims: ", error);
