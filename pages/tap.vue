@@ -126,12 +126,13 @@ export default {
   },
   middleware: "checkAuthentication",
   layout(context) {
-    if(context.store.getters["user/isAdmin"]) {
+    if (context.store.getters["user/isAdmin"]) {
       return "adminLayout";
     }
-    if(context.store.getters["user/isRoot"]) {
+    if (context.store.getters["user/isRoot"]) {
       return "rootLayout";
     }
+    return "regularLayout";
   }
 };
 </script>

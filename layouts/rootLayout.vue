@@ -14,7 +14,7 @@
     </v-navigation-drawer>
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title"/>
+      <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn @click="signOut">Log ud</v-btn>
     </v-app-bar>
@@ -45,20 +45,20 @@ export default {
           icon: "mdi-apps",
           title: "Root",
           to: "/root"
-        },
+        }
       ],
-      title: "Streglisten",
+      title: "Streglisten"
     };
   },
   methods: {
     signOut() {
       auth.signOut()
-      .then((val)=> {
-        this.$store.commit("user/signOut");
-        this.$router.push({ path: "/"});
-      })
-      .catch(console.error);
+        .then(val => {
+          this.$store.commit("user/signOut");
+          this.$router.push({ path: "/" });
+        })
+        .catch(console.error);
     }
-  },
+  }
 };
 </script>
