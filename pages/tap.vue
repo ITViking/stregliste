@@ -94,29 +94,31 @@ export default {
     },
     emptyCartForAllUsers() {
       this.users.map(user => {
-        if(!user.cart) return;
+        if (!user.cart) return;
         user.cart = 0;
         this.cartHasItems = false;
       });
     },
     addCartToBalance() {
       this.users.map(user => {
-        if(!user.cart) return;
-        let newBalance = user.balance += user.cart;
+        if (!user.cart) return;
+        let newBalance = (user.balance += user.cart);
+
         firestore.collection("users").doc(user.uid).update({
-          balance: newBalance
-        })
-        .then(() => {
-          this.snackbar = true;
-          this.snackbarText = "Købet er gennemført";
-          this.cartHasItems = false;
-        })
-        .catch((error) => {
-          console.error("failed to add new balance to user: ", error);
-          return;
-        });
+            balance: newBalance
+          })
+          .then(() => {
+            this.snackbar = true;
+            this.snackbarText = "Købet er gennemført";
+            this.cartHasItems = false;
+          })
+          .catch(error => {
+            console.error("failed to add new balance to user: ", error);
+            return;
+          });
+
         user.cart = 0;
-      })
+      });
     }
   },
   async mounted() {
