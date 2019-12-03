@@ -2,6 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <v-container>
+        <h1 class="text-center">Root</h1>
         <v-data-table
           :headers="headers"
           disable-pagination
@@ -11,7 +12,7 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="item in items" :key="item.name" @click="editOffer(item)">
+              <tr v-for="item in items" :key="item.name">
                 <td>{{ item.name }}</td>
                 <td>{{ item.role }}</td>
               </tr>
