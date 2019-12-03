@@ -5,6 +5,8 @@
         <h1 class="text-center mb-6">Velkommen</h1>
         <v-card>
           <v-data-table
+            sort-by="name"
+            :mobile-breakpoint="0"
             height="400"
             :headers="headers"
             disable-pagination
@@ -72,9 +74,7 @@ export default {
           if (change.type == "added") {
             let user = {
               uid: change.doc.id,
-              balance: change.doc.get("balance")
-                ? change.doc.get("balance")
-                : 0,
+              balance: change.doc.get("balance") ? change.doc.get("balance") : 0,
               cart: 0,
               name: change.doc.get("name")
             };
