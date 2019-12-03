@@ -94,6 +94,8 @@ export default {
   },
   created() {
     this.listUsers();
-  }
+  },
+  layout: "rootLayout",
+  middleware: "reguireRootAuthorization"
 };
 </script>
