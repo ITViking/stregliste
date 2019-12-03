@@ -51,7 +51,6 @@ export default {
             this.users.push(user);
           }
         });
-        console.log(this.users);
       });
     },
     async restartProject() {
