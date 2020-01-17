@@ -1,25 +1,23 @@
 {
   "name": "stregliste",
   "version": "1.0.0",
-  "private": true,
   "description": "My perfect Nuxt.js project",
   "author": "ITViking",
+  "private": true,
   "scripts": {
-    "build": "nuxt build --spa",
     "dev": "nuxt --spa",
-    "generate": "nuxt generate",
-    "start": "nuxt start"
+    "build": "nuxt build --spa",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@vue/cli": "^4.1.2",
     "axios": "^0.19.0",
     "firebase": "^7.5.0",
     "firebase-tools": "^7.8.1",
-    "nuxt": "^2.0.0",
-    "register-service-worker": "^1.6.2"
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0",
-    "@vue/cli-plugin-pwa": "^4.1.2"
+    "@nuxtjs/vuetify": "^1.0.0"
   }
 }
