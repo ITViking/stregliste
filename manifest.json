@@ -1,0 +1,21 @@
+{
+    "short_name": "Stregeliste",
+    "name": "Stregeliste",
+    "icons": [
+        {
+            "src": "/gnu-logo.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/gnu-logo.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?utm_source=a2hs",
+    "background_color": "#191919",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#191919"
+}
