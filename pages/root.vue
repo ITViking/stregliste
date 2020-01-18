@@ -7,16 +7,18 @@
           :headers="headers"
           disable-pagination
           :items="users"
+          item-key="name"
+          :single-expand="true"
+          :expanded.sync="expanded"
           hide-default-footer
           class="elevation-1"
+          show-expand
+          mobile-breakpoint="300"
         >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr v-for="item in items" :key="item.name">
-                <td>{{ item.name }}</td>
-                <td>{{ item.role }}</td>
-              </tr>
-            </tbody>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              <v-btn @click="makeUserAdmin(item)">Make admin</v-btn>
+            </td>
           </template>
         </v-data-table>
         <v-btn @click="restartProject" color="error" large class="mt-12">Restart project</v-btn>
@@ -32,10 +34,11 @@ import { firestore } from "../firebaseSetup";
 export default {
   data() {
     return {
+      expanded: [],
       users: [],
       headers: [
-        { text: "Navn", value: "name" },
-        { text: "Rolle", value: "bruger" }
+        { text: "", value: "name", align: "left", width: "250" },
+        { text: '', value: 'data-table-expand', align:'end', width: "50" },
       ]
     };
   },
@@ -52,6 +55,33 @@ export default {
           }
         });
       });
+    },
+    async makeUserAdmin(user) {
+      let payload = {
+        data: {
+          user
+        }
+      };
+
+      let headers = {
+        "Content-type": "application/json"
+      };
+
+      let response;
+      try {
+        response = await axios.post(
+          "https://us-central1-stregliste-79a6d.cloudfunctions.net/set_admin",
+          payload,
+          {
+            headers
+          }
+        );
+      } catch (error) {
+        console.error("faild to make user admin: ", error);
+        return;
+      }
+
+      console.log("User is now an admin :", response);
     },
     async restartProject() {
       //This function sole purpose is to allow for starting over due to the restrictive nature of firebase.
