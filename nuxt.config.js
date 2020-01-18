@@ -52,7 +52,7 @@ export default {
       iconSrc: "static/gnu-logo.png"
     },
     meta: {
-      theme_color: "#191919",
+      theme_color: "black",
       nativeUI: true
     },
     manifest: {
