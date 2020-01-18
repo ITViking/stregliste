@@ -42,7 +42,23 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
   ],
+  /*
+  ** PWA configuration
+  */
+  pwa: {
+    icon: {
+      iconSrc: "static/gnu-logo.png"
+    },
+    meta: {
+      theme_color: "#191919",
+      nativeUI: true
+    },
+    manifest: {
+      name: "Stregeliste"
+    }
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
