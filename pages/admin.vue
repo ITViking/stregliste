@@ -101,6 +101,7 @@ export default {
     this.listUsers();
   },
   //todo: remember to switch back to admin layout when going live
-  layout: "rootLayout"
+  layout: "adminLayout",
+  middleware: "reguireAdminAuthorization"
 };
 </script>
